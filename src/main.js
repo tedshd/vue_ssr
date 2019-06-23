@@ -1,15 +1,40 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
-import './registerServiceWorker'
+import { createRouter } from './router'
+import { createStore } from './store'
 import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-new Vue({
+export async function createApp ({
+          beforeApp = () => {},
+          afterApp = () => {}
+        } = {}) {
+          const router = createRouter()
+          const store = createStore()
+          
+
+          await beforeApp({
+            router,
+            store,
+            
+          })
+
+          const app = new Vue({
   router,
   store,
   i18n,
   render: h => h(App)
-}).$mount('#app')
+})
+
+          const result = {
+            app,
+            router,
+            store,
+            
+          }
+
+          await afterApp(result)
+
+          return result
+        }
