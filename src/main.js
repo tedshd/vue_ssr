@@ -6,35 +6,35 @@ import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-export async function createApp ({
-          beforeApp = () => {},
-          afterApp = () => {}
-        } = {}) {
-          const router = createRouter()
-          const store = createStore()
-          
+export async function createApp({
+  beforeApp = () => {},
+  afterApp = () => {}
+} = {}) {
+  const router = createRouter()
+  const store = createStore()
 
-          await beforeApp({
-            router,
-            store,
-            
-          })
 
-          const app = new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App)
-})
+  await beforeApp({
+    router,
+    store,
 
-          const result = {
-            app,
-            router,
-            store,
-            
-          }
+  })
 
-          await afterApp(result)
+  const app = new Vue({
+    router,
+    store,
+    i18n,
+    render: h => h(App)
+  })
 
-          return result
-        }
+  const result = {
+    app,
+    router,
+    store,
+
+  }
+
+  await afterApp(result)
+
+  return result
+}
