@@ -25,12 +25,20 @@
 //   return promise
 // }
 
+import axios from 'axios'
+
 export default function (page) {
-  fetch('https://tedshd.io/api/test/meta.php?meta=' + page)
-  .then(function(response) {
-    return response.json();
+  return axios.get('https://tedshd.io/api/test/meta.php', {
+    params: {
+      meta: page
+    }
   })
-  .then(function(myJson) {
-    console.log(myJson);
+  .then(function (response) {
+    // console.log(response)
+    return response.data
+  })
+  .catch(function (error) {
+    // console.log(error)
+    return error
   });
 }
