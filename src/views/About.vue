@@ -21,23 +21,28 @@ export default {
   mixins: [titleMixin],
   title () {
     console.log('TITLE')
-    return 'd4 title'
+    console.log('TITLE::', this.$store.state.metaData[this.$route.name])
+    return this.$store.state.metaData[this.$route.name].description
   },
   data: () => {
     return {
       msg: 'MSG',
       title: 'this is title',
-      style: Object.assign({}, base, style, layout),
-      metaData: {}
+      style: Object.assign({}, base, style, layout)
     }
   },
   computed: {
     // display the item from store state.
     meta () {
       // console.log('route item id:', this.$route.params.id)
-      console.log('meta::', this.metaData)
-      // this.metaData = this.$store.state.metaData[this.$route.name]
-      return this.$store.state.metaData[this.$route.name]
+      console.log('meta::', this.$store.state.metaData[this.$route.name])
+
+      // if (this.$ssrContext) {
+      //   this.$ssrContext.title = meta.title
+      // }
+      const meta = this.$store.state.metaData[this.$route.name]
+
+      return meta
     }
   },
   // Server-side only
@@ -45,6 +50,8 @@ export default {
   serverPrefetch () {
     console.log('==serverPrefetch==')
     // console.log(this.$ssrContext)
+
+    // this.$ssrContext.title = 'pre title'
     // return the Promise from the action
     // so that the component waits before rendering
 
@@ -64,7 +71,7 @@ export default {
 
   methods: {
     getMeta () {
-      console.log('route:', this.$route)
+      // console.log('route:', this.$route)
       // return the Promise from the action
       return this.$store.dispatch('getMeta', this.$route.name)
     }
