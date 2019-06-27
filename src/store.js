@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 // and ignore the implementation details
 import fetchMeta from './api/meta'
 
-
 Vue.use(Vuex)
 
 export function createStore () {
@@ -27,7 +26,6 @@ export function createStore () {
         // return the Promise via `store.dispatch()` so that we know
         // when the data has been fetched
         return fetchMeta(id).then(item => {
-          console.log('res:', item);
           commit('setItem', { id, item })
         })
       }

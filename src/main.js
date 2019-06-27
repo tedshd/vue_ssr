@@ -6,18 +6,16 @@ import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-export async function createApp({
+export async function createApp ({
   beforeApp = () => {},
   afterApp = () => {}
 } = {}) {
   const router = createRouter()
   const store = createStore()
 
-
   await beforeApp({
     router,
-    store,
-
+    store
   })
 
   const app = new Vue({
@@ -30,8 +28,7 @@ export async function createApp({
   const result = {
     app,
     router,
-    store,
-
+    store
   }
 
   await afterApp(result)

@@ -1,0 +1,15 @@
+:root {
+  --theme-bg-light: pink;
+  --theme-bg-dark: blue;
+}
+body {
+  background: gray;
+  background: var(--theme-bg-light);
+  /*background: var(--theme-bg-dark);*/
+}
+
+.common {
+  color: red;
+  background: yellow;
+  background: var(--theme-bg-dark);
+}
