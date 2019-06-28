@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <h1>{{home_msg}}</h1>
+    <h1 :class="style.error">{{home_msg}}</h1>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     {{init}}
   </div>
@@ -34,8 +34,8 @@ export default {
       // console.log('meta::', this.$store.state.metaData[this.$route.name])
 
       const meta = this.$store.state.metaData[this.$route.name]
-      console.log(Host(this) + this.$route.fullPath)
-      console.log(meta)
+      // console.log(Host(this) + this.$route.fullPath)
+      // console.log(meta)
       if (meta) {
         this.initMeta(this, meta)
       }
@@ -68,7 +68,7 @@ export default {
     }
     // console.log('||||||', this.$store.state.metaData[this.$route.name])
     // this.metaData = this.$store.state.metaData[this.$route.name]
-    console.log(this)
+
     document.body.classList.add(style.home_bg)
   },
   beforeCreate () {
