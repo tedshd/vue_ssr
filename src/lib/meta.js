@@ -29,14 +29,14 @@ const metaInfo = function (_this, arg) {
     return str
   }
 
-  // TODO handle it append
   function metaToTag (tag, arg) {
-    let domOld = document.querySelectorAll('.render_' + tag)
     // delete current meta
+    let domOld = document.querySelectorAll('.render_' + tag)
     for (var i = 0; i < domOld.length; i++) {
-        domOld[i].outerHTML = '';
+        domOld[i].outerHTML = ''
     }
     domOld = null
+
     for (let i = 0; i < arg.length; i++) {
       let dom = document.createElement(tag)
       for (let x in arg[i]) {
