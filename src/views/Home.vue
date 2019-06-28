@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
+    <h1>{{home_msg}}</h1>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    {{init}}
   </div>
 </template>
 
@@ -10,58 +12,38 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import metaTag from '@/lib/meta'
 import Host from '@/lib/host'
+import style from '@/style/home.css'
+
+console.log(style)
 
 export default {
   name: 'home',
   components: {
     HelloWorld
   },
+  data: () => {
+    return {
+      home_msg: '!HOME!',
+      style: Object.assign({}, style)
+    }
+  },
   computed: {
     // display the item from store state.
-    meta () {
+    init () {
       // console.log('route item id:', this.$route.params.id)
       // console.log('meta::', this.$store.state.metaData[this.$route.name])
 
       const meta = this.$store.state.metaData[this.$route.name]
       console.log(Host(this) + this.$route.fullPath)
-      metaTag(this, {
-        title: meta.title,
-        meta: [
-          {
-            itemprop: 'description',
-            name: 'description',
-            property: 'og:description',
-            content: meta.description
-          },
-          {
-            itemprop: 'url',
-            property: 'og:url',
-            content: Host(this) + this.$route.fullPath
-          },
-          {
-            itemprop: 'image',
-            property: 'og:image',
-            content: 'https://ssl.feebee.com.tw/og_fb_banner.jpg'
-          },
-          {
-            property: 'og:image:width',
-            content: '600'
-          },
-          {
-            property: 'og:image:height',
-            content: '314'
-          }
-        ],
-        link: [{
-          rel: 'asstes',
-          href: 'https://assets-cdn.github.com/'
-        }]
-      })
+      console.log(meta)
+      if (meta) {
+        this.initMeta(this, meta)
+      }
       // if (this.$ssrContext) {
       //   this.$ssrContext.title = meta.title
       // }
 
-      return meta
+      return ''
     }
   },
   // Server-side only
@@ -81,14 +63,43 @@ export default {
     console.log('==mounted==')
     // If we didn't already do it on the server
     // we fetch the item (will first show the loading text)
-    if (!this.meta) {
+    if (!this.init) {
       this.getMeta()
     }
     // console.log('||||||', this.$store.state.metaData[this.$route.name])
     // this.metaData = this.$store.state.metaData[this.$route.name]
+    console.log(this)
+    document.body.classList.add(style.home_bg)
+  },
+  beforeCreate () {
+  },
+  beforeDestroy () {
+    document.body.classList.remove(style.home_bg)
   },
 
   methods: {
+    initMeta (_this, meta) {
+      metaTag(_this, {
+        title: meta.title,
+        meta: [
+          {
+            itemprop: 'description',
+            name: 'description',
+            property: 'og:description',
+            content: meta.description
+          },
+          {
+            itemprop: 'url',
+            property: 'og:url',
+            content: Host(this) + this.$route.fullPath
+          }
+        ],
+        link: [{
+          rel: 'asstes',
+          href: 'https://assets-cdn.github.com/'
+        }]
+      })
+    },
     getMeta () {
       // console.log('route:', this.$route)
       // return the Promise from the action
