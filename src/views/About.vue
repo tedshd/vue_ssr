@@ -10,6 +10,8 @@
 </template>
 <script>
 import titleMixin from '@/mixin/title-mixin'
+import metaTag from '@/lib/meta'
+import Host from '@/lib/host'
 import base from '@/style/_base.css'
 import layout from '@/style/_layout.css'
 import style from '@/style/about.css'
@@ -19,11 +21,24 @@ console.log(style)
 export default {
   name: 'About',
   mixins: [titleMixin],
-  title () {
-    console.log('TITLE')
-    console.log('TITLE::', this.$store.state.metaData[this.$route.name])
-    return this.$store.state.metaData[this.$route.name].description
-  },
+  // title () {
+  //   console.log('TITLE')
+  //   console.log('TITLE::', this.$store.state.metaData[this.$route.name])
+  //   return 'MIXINtitle'
+  // },
+  // metaTag () {
+  //   return {
+  //     title: this.$store.state.metaData[this.$route.name],
+  //     meta: [{
+  //       name: 'keyWords',
+  //       content: 'My Example App'
+  //     }],
+  //     link: [{
+  //       rel: 'asstes',
+  //       href: 'https://assets-cdn.github.com/'
+  //     }]
+  //   }
+  // },
   data: () => {
     return {
       msg: 'MSG',
@@ -35,12 +50,46 @@ export default {
     // display the item from store state.
     meta () {
       // console.log('route item id:', this.$route.params.id)
-      console.log('meta::', this.$store.state.metaData[this.$route.name])
+      // console.log('meta::', this.$store.state.metaData[this.$route.name])
 
+      const meta = this.$store.state.metaData[this.$route.name]
+      console.log(Host(this) + this.$route.fullPath)
+      metaTag(this, {
+        title: meta.title,
+        meta: [
+          {
+            itemprop: 'description',
+            name: 'description',
+            property: 'og:description',
+            content: meta.description
+          },
+          {
+            itemprop: 'url',
+            property: 'og:url',
+            content: Host(this) + this.$route.fullPath
+          },
+          {
+            itemprop: 'image',
+            property: 'og:image',
+            content: 'https://ssl.feebee.com.tw/og_fb_banner.jpg'
+          },
+          {
+            property: 'og:image:width',
+            content: '600'
+          },
+          {
+            property: 'og:image:height',
+            content: '314'
+          }
+        ],
+        link: [{
+          rel: 'asstes',
+          href: 'https://assets-cdn.github.com/'
+        }]
+      })
       // if (this.$ssrContext) {
       //   this.$ssrContext.title = meta.title
       // }
-      const meta = this.$store.state.metaData[this.$route.name]
 
       return meta
     }
@@ -65,7 +114,7 @@ export default {
     if (!this.meta) {
       this.getMeta()
     }
-    console.log('||||||', this.$store.state.metaData[this.$route.name])
+    // console.log('||||||', this.$store.state.metaData[this.$route.name])
     // this.metaData = this.$store.state.metaData[this.$route.name]
   },
 
