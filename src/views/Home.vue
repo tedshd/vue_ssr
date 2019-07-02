@@ -12,6 +12,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import metaTag from '@/lib/meta'
 import Host from '@/lib/host'
+import loading from '@/lib/loading'
 import style from '@/style/home.css'
 
 console.log(style)
@@ -70,11 +71,17 @@ export default {
     // this.metaData = this.$store.state.metaData[this.$route.name]
 
     document.body.classList.add(style.home_bg)
+    loading(false, style)
   },
   beforeCreate () {
   },
+  updated () {
+
+  },
   beforeDestroy () {
     document.body.classList.remove(style.home_bg)
+
+    loading(true, style)
   },
 
   methods: {

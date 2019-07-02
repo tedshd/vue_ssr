@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <h2 :class="[style.error, style.small, style.font]">{{msg}}</h2>
+    <h2 :class="[style.error, style.small, style.font]" class="small">{{msg}}</h2>
     <p :class="style.red">{{init}}</p>
     <section :class="style.layout">
     </section>
@@ -11,8 +11,7 @@
 import titleMixin from '@/mixin/title-mixin'
 import metaTag from '@/lib/meta'
 import Host from '@/lib/host'
-// import base from '@/style/_var.css'
-// import layout from '@/style/_layout.css'
+import loading from '@/lib/loading'
 import style from '@/style/about.css'
 
 console.log(style)
@@ -70,12 +69,15 @@ export default {
     // console.log('||||||', this.$store.state.metaData[this.$route.name])
     // this.metaData = this.$store.state.metaData[this.$route.name]
     document.body.classList.add(style.about_bg)
+    loading(false, style)
   },
   beforeCreate () {
   },
   beforeDestroy () {
     console.log('beforeDestroy')
     document.body.classList.remove(style.about_bg)
+
+    loading(true, style)
   },
 
   methods: {
