@@ -5,6 +5,8 @@
     <p :class="style.red">{{init}}</p>
     <section :class="style.layout">
     </section>
+    <p>And: {{and}}</p>
+    <p>Apple: {{ios}}</p>
   </div>
 </template>
 <script>
@@ -13,6 +15,9 @@ import metaTag from '@/lib/meta'
 import Host from '@/lib/host'
 import loading from '@/lib/loading'
 import style from '@/style/about.css'
+import { isMobile } from 'mobile-device-detect'
+import { isAndroid } from 'mobile-device-detect'
+import { isIOS } from 'mobile-device-detect'
 
 console.log(style)
 
@@ -21,7 +26,10 @@ export default {
   mixins: [titleMixin],
   data: () => {
     return {
-      msg: 'MSG',
+      // msg: 'MSG',
+      msg: isMobile ? 'Welcome to Your Vue.js mobile App!' : 'Welcome to Your Vue.js App',
+      and: isAndroid ? 'Android' : '',
+      ios: isIOS ? 'iOS' : '',
       title: 'this is title',
       style: Object.assign({}, style)
     }
